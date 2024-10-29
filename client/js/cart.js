@@ -109,7 +109,7 @@ const displayCart = ()=> {
                 price: total,
             };
 
-            fetch("http://localhost:8080/create_preference", {
+            fetch("http://localhost:3000/create_preference", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -167,18 +167,21 @@ const deleteCartProduct = (id) => {
     const foundId = cart.findIndex((element) => element.id === id);
     cart.splice(foundId, 1);
     displayCart();
+    saveLocal();
     displayCartCounter();
 }
 
 const displayCartCounter = () => {
 
     const cartLength = cart.reduce((acc, el) => acc + el.quanty, 0 ); 
+    localStorage.setItem('cartLength', JSON.stringify(cartLength));
 
     if(cartLength > 0){
         cartCounter.style.display = "block";
-        cartCounter.innerText = cartLength;
+        cartCounter.innerText = JSON.parse(localStorage.getItem('cartLength'));
     } else {
         cartCounter.style.display = "none";
     }
-   
 }
+
+displayCartCounter();
