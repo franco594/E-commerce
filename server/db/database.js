@@ -30,6 +30,7 @@ await createDatabaseIfNotExists();
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'mysql',
   dialectOptions: {
+    connectTimeout: 30000, // Increase timeout to 30 seconds
     ssl: {
       require: true,
       rejectUnauthorized: false // Permite conexiones SSL
