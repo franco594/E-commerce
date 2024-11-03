@@ -15,8 +15,8 @@
                 <p>Registro</p>
             </div>
             <div class="contenedor-register">
-                <input type="text" id="nombre_usuario" name="user_name" placeholder="Usuario" required>
-                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                <input type="text" id="nombre_usuario" name="user_name" placeholder="Usuario" required minlength="5" pattern=".*" title="El nombre de usuario debe tener al menos 5 caracteres.">
+                <input type="password" id="password" name="password" placeholder="Contraseña" required minlength="6" pattern="^(?=.*[0-9])(?=.*[\W_]).{6,}$" title="La contraseña debe tener al menos 6 caracteres, incluyendo un número y un carácter especial.">
                 <input type="text" id="nombre" name="name" placeholder="Nombre y apellido" required>
                 <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
             </div>
@@ -29,26 +29,73 @@
         </form>
     </section>
 
+    <!-- Modal -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modalMessage"></p>
+        </div>
+    </div>
+    
+    <div id="loader" class="loader">
+        <p>Cargando...</p>
+    </div>
+
 </body>
 </html>
 
     <script>
         // Evitar el comportamiento por defecto del formulario si quieres hacer un envío usando Fetch API
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
-          e.preventDefault();
+            e.preventDefault();
+
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex'; // Mostrar el loader
           
-          const formData = new FormData(this);
-          const data = Object.fromEntries(formData.entries());
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
     
-          const response = await fetch('/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-    
-          const result = await response.json();
-          alert(result.message);  // Mostrar el mensaje de éxito o error
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json(); // Convertir la respuesta a JSON
+
+            console.log(response.ok)
+            // Verificar si la respuesta fue exitosa
+            if (response.ok) {
+                showModalMessage("Registro exitoso ✅");
+            } else {
+                // Si no fue exitosa, mostrar el mensaje de error
+                showModalMessage(result.message + ' ❌' || "Hubo un problema con el registro. Intenta nuevamente. ❌");
+            }
+
+            loader.style.display = 'none'; // Ocultar el loader al terminar
         });
+
+        // Función para mostrar el modal con un mensaje
+        function showModalMessage(message) {
+            const modal = document.getElementById("messageModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const closeModal = document.getElementsByClassName("close")[0];
+
+            modalMessage.innerText = message;
+            modal.style.display = "block";
+
+            // Cerrar el modal al hacer clic en la "x"
+            closeModal.onclick = function() {
+                modal.style.display = "none";
+            };
+
+            // Cerrar el modal al hacer clic fuera del contenido
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            };
+        };
       </script>
 </body>
 </html>

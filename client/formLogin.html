@@ -16,8 +16,8 @@
                 <p>Iniciar Sesión</p>
             </div>
             <div class="contenedor-login">
-                <input type="text" name="user_name" id="nombre_usuario" placeholder="Usuario">
-                <input type="password" name="password" id="password" placeholder="Contraseña">
+                <input type="text" id="nombre_usuario" name="user_name" placeholder="Usuario" required minlength="5" pattern=".*" title="El nombre de usuario debe tener al menos 5 caracteres.">
+                <input type="password" name="password" id="password" placeholder="Contraseña" required>
             </div>
             <div class="contenedor-button">
                 <button type="submit">Acceder</button>
@@ -28,16 +28,31 @@
         </form>
     </section>
     <!---<script type="module" src="../Server/controllers/loginController.js"></script> <!-- Verifica que la ruta sea correcta -->
+   
+    <!-- Modal -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modalMessage"></p>
+        </div>
+    </div>
+
+    <div id="loader" class="loader">
+        <p>Cargando...</p>
+    </div>
+  
     <script >
         // Depuración para el manejo del formulario
         document.getElementById('contenedor-form').addEventListener('submit', async (e) => {
             e.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
             console.log('Formulario de inicio de sesión enviado'); // Depuración
+
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex'; // Mostrar el loader
             
             const user_name = document.getElementById('nombre_usuario').value;
             const password = document.getElementById('password').value;
             
-
             console.log(`Datos del formulario: usuario=${nombre_usuario}, contraseña=${password}`); // Depuración
 
             const response = await fetch('/login', { // Cambia la ruta a /login
@@ -67,16 +82,35 @@
                     window.location.href = './usuarios.html'; // Redirige a la página de usuarios
                 }
             } else {
-                if (nombre_usuario_aux == "hernan" && password_aux == "1234") {
-                    sessionStorage.setItem('token', data.token); // Asegúrate de que el servidor envíe el token
-
-                    window.location.href = './usuarioLocal.html'; // Cambia a la URL del formulario de registro
-                } else {
-                    const errorData = await response.json(); // Obtener el mensaje de error
-                    alert(errorData.message); // Mostrar mensaje de error
-                }
+                showModalMessage(data.message + ' ❌' || "Datos incorrectos. Intenta nuevamente. ❌");
             }
+
+            loader.style.display = 'none'; // Ocultar el loader al terminar
         });
+
+        // Función para mostrar el modal con un mensaje
+        function showModalMessage(message) {
+            const modal = document.getElementById("messageModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const closeModal = document.getElementsByClassName("close")[0];
+
+            modalMessage.innerText = message;
+            modal.style.display = "block";
+
+            // Cerrar el modal al hacer clic en la "x"
+            closeModal.onclick = function() {
+                modal.style.display = "none";
+            };
+
+            // Cerrar el modal al hacer clic fuera del contenido
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            };
+        };
+
+        
     </script>
 </body>
 </html>

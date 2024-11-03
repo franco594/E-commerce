@@ -177,7 +177,7 @@ const displayCartCounter = () => {
     localStorage.setItem('cartLength', JSON.stringify(cartLength));
 
     if(cartLength > 0){
-        cartCounter.style.display = "block";
+        cartCounter.style.display = "grid";
         cartCounter.innerText = JSON.parse(localStorage.getItem('cartLength'));
     } else {
         cartCounter.style.display = "none";

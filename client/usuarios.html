@@ -16,8 +16,7 @@
     <div class="nav-container">
         <nav class="navbar">
             <div class="navbar-logo">
-                <img src="/media/logo.png" alt="">
-                <p>GamingStore</p>
+                <img src="./media/logo.png" alt="GamingStore Logo">
             </div>
 
             <div class="categorias-container">
@@ -25,8 +24,9 @@
             </div>
 
             <div class="login-register">
+                <p>👾</p>
                 <span class="user-name" id="user-name"></span>
-                <button id="logout-btn"> ➡️Logout </button>
+                <button id="logout-btn"> Cerrar sesión </button>
             </div>
         </nav>
     </div>
@@ -55,13 +55,17 @@
     <div class="modal-container" id="modal-container"></div>
 
     
+    
     <script src="/js/index.js"></script>
     <script src="/js/cart.js"></script>
     <script src="/js/tokenUsuario.js"></script>
+    <script src="js/authentication.js"></script>
     <script>
          // Recupera el nombre de usuario desde sessionStorage
          const username = sessionStorage.getItem('username');
          document.getElementById('user-name').textContent = username;
+
+         document.addEventListener('DOMContentLoaded', verifyToken);
     </script>
 </body>
 <footer>

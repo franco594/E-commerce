@@ -16,8 +16,7 @@
     <div class="nav-container">
         <nav class="navbar">
             <div class="navbar-logo">
-                <img src="/media/logo.png" alt="">
-                <p>GamingStore</p>
+                <img src="./media/logo.png" alt="GamingStore Logo">
             </div>
 
             <div class="categorias-container">
@@ -25,8 +24,9 @@
             </div>
 
             <div class="login-register">
+                <p>🎃</p>
                 <span class="user-name" id="user-name"></span>
-                <button id="logout-btn"> ➡️Logout </button>
+                <button id="logout-btn"> Cerrar sesión </button>
             </div>
         </nav>
     </div>
@@ -41,24 +41,35 @@
             <p>Tu tienda de juegos</p>
         </div>
     </div>
+    <!-- Columna del formulario -->
     <div class="form-preview-container">
         <div class="form-container">
             <div class="caja-p__form">
                 <p>Nuevo Producto</p>
             </div>
             <form id="productForm" class="productForm">
-                
                 <div class="product-register">
                     <input type="text" id="productName" name="name" placeholder="Nombre del producto" required>
                     <input type="number" id="productPrice" name="price" placeholder="Precio" required>
                     <input type="number" id="productQuantity" name="quanty" placeholder="Cantidad" required>
                     <input type="text" id="productImage" name="img" placeholder="Ej: /media/cyberpunk.jpg" required>
                 </div>
-                
                 <button type="submit">Crear Producto</button>
             </form>
         </div>
-    
+
+        <!-- Columna de vista previa -->
+    <div class="preview-container">
+        <h3>Vista Previa</h3>
+        <div class="product-preview" id="productPreview">
+            <img id="previewImage" src="/media/logo.png" alt="Vista previa"  width="194">
+            <h3 id="previewName"></h3>
+            <p id="previewPrice"></p>
+            <p id="previewQuantity"></p>
+            <button  class="preview-btn" id="preview-btn">Comprar</button>
+        </div>
+        </div>
+    </div>
          <!--shop content-->
         <div class="card-products-container">
             <div class="card-products" id="shopContent"></div>
@@ -68,8 +79,17 @@
         <div class="modal-container" id="modal-container"></div>
     </div>
 
+    <!-- Modal -->
+    <!-- <div id="messageModal" class="modal">
+        <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modalMessage"></p>
+        </div>
+    </div> -->
+
     <script src="/js/tokenUsuario.js"></script>
     <script src="/js/cart-preview.js"></script>
+    <script src="js/authentication.js"></script>
     <script>
          // Recupera el nombre de usuario desde sessionStorage
          const username = sessionStorage.getItem('username');
@@ -92,12 +112,38 @@
                 // Manejo de respuesta
                 if (!response.ok) throw new Error(`Error HTTP! status: ${response.status}`);
                 const result = await response.json();
-                alert(result.message);  // Mostrar el mensaje de éxito o error
+                showModalMessage("Nuevo producto creado ✅");  // Mostrar el mensaje de éxito o error
             } catch (error) {
                 console.error("Error al enviar los datos:", error);
-                alert("Hubo un problema al enviar el formulario. Verifica los datos e intenta de nuevo.");
+                showModalMessage("Hubo un problema al enviar el formulario. Verifica los datos e intenta de nuevo. ❌");
             } 
         });
+
+        // Función para mostrar el modal con un mensaje
+        function showModalMessage(message) {
+
+            const modalContainer = document.getElementById("modal-container");
+            const modalOverlay = document.getElementById("modal-overlay");
+
+        
+            modalContainer.innerHTML = message;
+            modalContainer.style.display = "block";
+            modalOverlay.style.display = "block";
+            // modal Header
+            const modalHeader = document.createElement("div");
+
+            const modalClose = document.createElement("div");
+            modalClose.innerText = "❌";
+            modalClose.className = "modal-close";
+            modalContainer.append(modalClose);
+
+            modalClose.addEventListener("click", ()=> {
+                modalContainer.style.display = "none";
+                modalOverlay.style.display = "none";
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', verifyToken);
 
     </script>
 </body>
