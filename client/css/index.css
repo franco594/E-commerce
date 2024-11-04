@@ -975,6 +975,8 @@ body {
 @media screen and (max-width: 768px) {
     .form-preview-container {
         flex-direction: column;
+        width: 100%;
+        height: auto;
     }
     
     .preview-container {
