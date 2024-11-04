@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+< lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="./css/registerForm.css">
     <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
 </head>
-<body>
+<>
     <section id="registerSection">
         <form id="registerForm" action="/register" method="POST" class="contenedor-form">
             <div class="caja-p__form">
                 <p>Registro</p>
             </div>
             <div class="contenedor-register">
-                <input type="text" id="nombre_usuario" name="user_name" placeholder="Usuario" required minlength="5" pattern=".*" title="El nombre de usuario debe tener al menos 5 caracteres.">
-                <input type="password" id="password" name="password" placeholder="Contraseña" required minlength="6" pattern="^(?=.*[0-9])(?=.*[\W_]).{6,}$" title="La contraseña debe tener al menos 6 caracteres, incluyendo un número y un carácter especial.">
-                <input type="text" id="nombre" name="name" placeholder="Nombre y apellido" required>
-                <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+                <input type="text" id="nombre_usuario" name="user_name" placeholder="Usuario" required minlength="5" pattern=".*" title="El nombre de usuario debe tener al menos 5 caracteres." autocomplete="off">
+                <input type="password" id="password" name="password" placeholder="Contraseña" required minlength="6" pattern="^(?=.*[0-9])(?=.*[\W_]).{6,}$" title="La contraseña debe tener al menos 6 caracteres, incluyendo un número y un carácter especial." autocomplete="off">
+                <input type="text" id="nombre" name="name" placeholder="Nombre y apellido" required autocomplete="off">
+                <input type="email" id="email" name="email" placeholder="Correo electrónico" required autocomplete="off">
             </div>
             <div class="contenedor-button">
                 <button type="submit">Registrarse</button>
@@ -40,62 +40,60 @@
     <div id="loader" class="loader">
         <p>Cargando...</p>
     </div>
-
-</body>
-</html>
-
     <script>
         // Evitar el comportamiento por defecto del formulario si quieres hacer un envío usando Fetch API
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const loader = document.getElementById('loader');
-            loader.style.display = 'flex'; // Mostrar el loader
-          
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
+            e.preventDefault(); // Previene el envío estándar del formulario
     
+            const loader = document.getElementById('loader'); // Obtiene el elemento del loader
+            loader.style.display = 'flex'; // Muestra el loader mientras se procesa la solicitud
+            
+            const formData = new FormData(this); // Crea un objeto FormData a partir del formulario
+            const data = Object.fromEntries(formData.entries()); // Convierte los datos del formulario en un objeto
+    
+            // Realiza una solicitud POST a la ruta '/register'
             const response = await fetch('/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                method: 'POST', // Método de la solicitud
+                headers: { 'Content-Type': 'application/json' }, // Define el tipo de contenido
+                body: JSON.stringify(data) // Convierte los datos a formato JSON
             });
-
-            const result = await response.json(); // Convertir la respuesta a JSON
-
-            console.log(response.ok)
+    
+            const result = await response.json(); // Convierte la respuesta a formato JSON
+    
+            console.log(response.ok); // Muestra en consola si la respuesta fue exitosa
+    
             // Verificar si la respuesta fue exitosa
             if (response.ok) {
-                showModalMessage("Registro exitoso ✅");
+                showModalMessage("Registro exitoso ✅"); // Muestra mensaje de éxito
             } else {
                 // Si no fue exitosa, mostrar el mensaje de error
                 showModalMessage(result.message + ' ❌' || "Hubo un problema con el registro. Intenta nuevamente. ❌");
             }
-
-            loader.style.display = 'none'; // Ocultar el loader al terminar
+    
+            loader.style.display = 'none'; // Oculta el loader al terminar el procesamiento
         });
-
+    
         // Función para mostrar el modal con un mensaje
         function showModalMessage(message) {
-            const modal = document.getElementById("messageModal");
-            const modalMessage = document.getElementById("modalMessage");
-            const closeModal = document.getElementsByClassName("close")[0];
-
-            modalMessage.innerText = message;
-            modal.style.display = "block";
-
+            const modal = document.getElementById("messageModal"); // Obtiene el modal
+            const modalMessage = document.getElementById("modalMessage"); // Obtiene el elemento donde se mostrará el mensaje
+            const closeModal = document.getElementsByClassName("close")[0]; // Obtiene el botón de cerrar modal
+    
+            modalMessage.innerText = message; // Asigna el mensaje al modal
+            modal.style.display = "block"; // Muestra el modal
+    
             // Cerrar el modal al hacer clic en la "x"
             closeModal.onclick = function() {
-                modal.style.display = "none";
+                modal.style.display = "none"; // Oculta el modal
             };
-
-            // Cerrar el modal al hacer clic fuera del contenido
+    
+            // Cerrar el modal al hacer clic fuera del contenido del modal
             window.onclick = function(event) {
                 if (event.target === modal) {
-                    modal.style.display = "none";
+                    modal.style.display = "none"; // Oculta el modal
                 }
             };
         };
-      </script>
+    </script>    
 </body>
 </html>

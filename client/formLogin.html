@@ -10,14 +10,13 @@
 </head>
 <body>
     <section>
-        
         <form id="contenedor-form" class="contenedor-form">
             <div class="caja-p__form">
                 <p>Iniciar Sesión</p>
             </div>
             <div class="contenedor-login">
-                <input type="text" id="nombre_usuario" name="user_name" placeholder="Usuario" required minlength="5" pattern=".*" title="El nombre de usuario debe tener al menos 5 caracteres.">
-                <input type="password" name="password" id="password" placeholder="Contraseña" required>
+                <input type="text" id="nombre_usuario" name="user_name" placeholder="Usuario" required minlength="5" pattern=".*" title="El nombre de usuario debe tener al menos 5 caracteres." autocomplete="off">
+                <input type="password" name="password" id="password" placeholder="Contraseña" required autocomplete="off">
             </div>
             <div class="contenedor-button">
                 <button type="submit">Acceder</button>
@@ -27,66 +26,30 @@
             </div>
         </form>
     </section>
-    <!---<script type="module" src="../Server/controllers/loginController.js"></script> <!-- Verifica que la ruta sea correcta -->
-   
+    
     <!-- Modal -->
     <div id="messageModal" class="modal">
         <div class="modal-content">
-        <span class="close">&times;</span>
-        <p id="modalMessage"></p>
+            <span class="close">&times;</span>
+            <p id="modalMessage"></p>
         </div>
     </div>
 
-    <div id="loader" class="loader">
+    <div id="loader" class="loader" style="display: none;">
         <p>Cargando...</p>
     </div>
   
-    <script >
-        // Depuración para el manejo del formulario
-        document.getElementById('contenedor-form').addEventListener('submit', async (e) => {
-            e.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
-            console.log('Formulario de inicio de sesión enviado'); // Depuración
+    <script>
 
-            const loader = document.getElementById('loader');
-            loader.style.display = 'flex'; // Mostrar el loader
+        // Función para limpiar los campos de usuario y contraseña
+        function clearLoginFields() {
+            const user_name_input = document.querySelector('input[name="user_name"]');
+            const password_input = document.querySelector('input[name="password"]');
             
-            const user_name = document.getElementById('nombre_usuario').value;
-            const password = document.getElementById('password').value;
-            
-            console.log(`Datos del formulario: usuario=${nombre_usuario}, contraseña=${password}`); // Depuración
-
-            const response = await fetch('/login', { // Cambia la ruta a /login
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ user_name, password })
-            });
-
-            const data = await response.json();
-            console.log('Respuesta del servidor:', data); // Depuración
-            
-            if (response.ok) {
-                //document.getElementById('message').textContent = data.message;
-                sessionStorage.setItem('token', data.token); // Asegúrate de que el servidor envíe el token
-                sessionStorage.setItem('username', data.user.user_name);
-                sessionStorage.setItem('role', data.user.role); // Almacenar el rol
-                window.location.href = './usuarios.html'; // Cambia a la URL del formulario de registro
-
-                console.log("Rol del usuario:", data.user.role); // Debug: Imprimir el rol
-
-                // Aquí podrías redirigir o hacer algo con el token
-                if (data.user.role === 'admin') {
-                    window.location.href = './admin.html'; // Redirige a la página de administración
-                } else {
-                    window.location.href = './usuarios.html'; // Redirige a la página de usuarios
-                }
-            } else {
-                showModalMessage(data.message + ' ❌' || "Datos incorrectos. Intenta nuevamente. ❌");
-            }
-
-            loader.style.display = 'none'; // Ocultar el loader al terminar
-        });
+            // Limpiar los campos
+            user_name_input.value = '';
+            password_input.value = '';
+        }
 
         // Función para mostrar el modal con un mensaje
         function showModalMessage(message) {
@@ -101,16 +64,73 @@
             closeModal.onclick = function() {
                 modal.style.display = "none";
             };
+        };    
 
-            // Cerrar el modal al hacer clic fuera del contenido
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
+        document.getElementById('contenedor-form').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
+            console.log('Formulario de inicio de sesión enviado'); // Depuración
+
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex'; // Mostrar el loader
+            
+            const user_name = document.getElementById('nombre_usuario').value;
+            const password = document.getElementById('password').value;
+
+            const user_name_input = document.querySelector('input[name="user_name"]');
+            const password_input = document.querySelector('input[name="password"]');
+            
+            
+            
+            console.log(`Datos del formulario: usuario=${user_name}, contraseña=${password}`); // Depuración
+
+            const response = await fetch('/login', { // Cambia la ruta a /login
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_name, password })
+            });
+
+            const data = await response.json();
+            console.log('Respuesta del servidor:', data); // Depuración
+            
+            if (response.ok) {
+                sessionStorage.setItem('token', data.token); // Asegúrate de que el servidor envíe el token
+                sessionStorage.setItem('username', data.user.user_name);
+                sessionStorage.setItem('role', data.user.role); // Almacenar el rol
+
+                // Limpiar los campos
+                user_name_input.value = '';
+                password_input.value = '';
+
+                console.log("Rol del usuario:", data.user.role); // Debug: Imprimir el rol
+                if (data.user.role === 'admin') {
+                    window.location.href = './admin.html'; // Redirige a la página de administración
+                } else {
+                    window.location.href = './usuarios.html'; // Redirige a la página de usuarios
                 }
-            };
-        };
+            } else {
+                showModalMessage(data.message || "Datos incorrectos. Intenta nuevamente. ❌");
+            }
+
+            loader.style.display = 'none'; // Ocultar el loader al terminar
+        });
 
         
+        // Cerrar el modal al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            const modal = document.getElementById("messageModal");
+
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        // Llamar a clearLoginFields y verifyToken al cargar la página de login
+        document.addEventListener('DOMContentLoaded', () => {
+            clearLoginFields(); // Limpiar campos de inicio de sesión
+        });
+
     </script>
 </body>
 </html>

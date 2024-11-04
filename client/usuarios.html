@@ -36,11 +36,11 @@
     </div>
     <!--banner-->
     <div class="banner">
-        <div class="banner-container">
-            <h1>GamingStore</h1>
-            <p>Tu tienda de juegos</p>
+        <div class="slider-track" id="slider-track">
+            
         </div>
     </div>
+
 
     <!--shop content-->
     <div class="card-products-container">
@@ -59,18 +59,51 @@
     <script src="/js/index.js"></script>
     <script src="/js/cart.js"></script>
     <script src="/js/tokenUsuario.js"></script>
-    <script src="js/authentication.js"></script>
+    <script src="/js/authentication.js"></script>
     <script>
-         // Recupera el nombre de usuario desde sessionStorage
-         const username = sessionStorage.getItem('username');
-         document.getElementById('user-name').textContent = username;
 
-         document.addEventListener('DOMContentLoaded', verifyToken);
+        // Verifica el token en sessionStorage
+        function verifyToken() {
+            const token = sessionStorage.getItem('token'); // Recupera el token de sessionStorage
+            if (!token) {
+                logoutAndRedirect(); // Redirige si no hay token
+            }
+        }
+
+        // Función para cerrar sesión y redirigir al inicio
+        function logoutAndRedirect() {
+            sessionStorage.clear(); // Limpia todos los datos almacenados en sessionStorage
+            window.location.replace('./index.html'); // Redirige al inicio (a la página de login)
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Verifica el token en sessionStorage al cargar la página
+            verifyToken();
+            
+            // Recupera el nombre de usuario desde sessionStorage y lo muestra en la interfaz
+            const username = sessionStorage.getItem('username');
+            if (username) {
+                document.getElementById('user-name').textContent = username; // Asigna el nombre de usuario al elemento correspondiente
+            }
+    
+            // Manejo del cierre de sesión
+            document.getElementById('logout-btn').addEventListener('click', logoutAndRedirect); // Agrega un evento al botón de cerrar sesión
+        });
+    
+        // Manejo del evento popstate para verificar el token al usar el botón de retroceder del navegador
+        window.addEventListener('popstate', (event) => {
+            const token = sessionStorage.getItem('token'); // Recupera el token de sessionStorage
+            // Verifica si no hay token y si la ruta actual es 'usuarios.html'
+            if (!token && window.location.pathname.includes('usuarios.html')) {
+                alert('Primero debes iniciar sesión.'); // Muestra una alerta
+                window.location.replace('./formLogin.html'); // Redirige a la página de inicio de sesión
+            }
+        });
     </script>
 </body>
 <footer>
     <div class="footer-container">
-        <p>Concatenados® Todos los derechos reservados. 2024</p>
+        <p> ® 2024 Concatenados - Todos los derechos reservados - Sitio web creado por Concatenados lml </p>
     </div>
 </footer>
 </html>

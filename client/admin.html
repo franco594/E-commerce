@@ -36,9 +36,8 @@
     </div>
     <!--banner-->
     <div class="banner">
-        <div class="banner-container">
-            <h1>GamingStore</h1>
-            <p>Tu tienda de juegos</p>
+        <div class="slider-track" id="slider-track">
+            
         </div>
     </div>
     <!-- Columna del formulario -->
@@ -63,9 +62,11 @@
         <h3>Vista Previa</h3>
         <div class="product-preview" id="productPreview">
             <img id="previewImage" src="/media/logo.png" alt="Vista previa"  width="194">
-            <h3 id="previewName"></h3>
-            <p id="previewPrice"></p>
-            <p id="previewQuantity"></p>
+            <p id="previewName">Nombre</p>
+            <h4 id="previewPrice">Precio</h4>
+            <p id="previewQuantity">Stock</p>
+            <p1><b>6</b> cuotas sin interés de</p1>
+            <p1><b><span id="span-quotas">Cuotas</span></b></p1>
             <button  class="preview-btn" id="preview-btn">Comprar</button>
         </div>
         </div>
@@ -89,67 +90,125 @@
 
     <script src="/js/tokenUsuario.js"></script>
     <script src="/js/cart-preview.js"></script>
-    <script src="js/authentication.js"></script>
+    <script src="/js/authentication.js"></script>
+    <script src="/js/index.js"></script>
     <script>
-         // Recupera el nombre de usuario desde sessionStorage
-         const username = sessionStorage.getItem('username');
-         document.getElementById('user-name').textContent = username;
-
-         document.getElementById('productForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-          
+        // Recupera el nombre de usuario desde sessionStorage y lo muestra en la interfaz
+        const username = sessionStorage.getItem('username');
+        document.getElementById('user-name').textContent = username;
+    
+        // Escucha el evento de envío del formulario de producto
+        document.getElementById('productForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Previene el comportamiento por defecto del formulario (recargar la página)
+    
+            // Obtiene los datos del formulario
             const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
-            console.log(data);
-
+            const data = Object.fromEntries(formData.entries()); // Convierte los datos del formulario a un objeto
+            console.log(data); // Muestra los datos en la consola
+    
             try {
+                // Envía los datos del producto a la API
                 const response = await fetch('/products', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data) // Convierte el objeto de datos a JSON
                 });
-
+    
                 // Manejo de respuesta
                 if (!response.ok) throw new Error(`Error HTTP! status: ${response.status}`);
                 const result = await response.json();
-                showModalMessage("Nuevo producto creado ✅");  // Mostrar el mensaje de éxito o error
+                showModalMessage("Nuevo producto creado ✅"); // Muestra un mensaje de éxito
             } catch (error) {
-                console.error("Error al enviar los datos:", error);
-                showModalMessage("Hubo un problema al enviar el formulario. Verifica los datos e intenta de nuevo. ❌");
-            } 
+                console.error("Error al enviar los datos:", error); // Muestra el error en la consola
+                showModalMessage("Hubo un problema al enviar el formulario. Verifica los datos e intenta de nuevo. ❌"); // Muestra un mensaje de error
+            }
         });
-
-        // Función para mostrar el modal con un mensaje
+    
+        // Función para mostrar un modal con un mensaje
         function showModalMessage(message) {
-
             const modalContainer = document.getElementById("modal-container");
             const modalOverlay = document.getElementById("modal-overlay");
-
-        
-            modalContainer.innerHTML = message;
-            modalContainer.style.display = "block";
-            modalOverlay.style.display = "block";
-            // modal Header
-            const modalHeader = document.createElement("div");
-
+    
+            modalContainer.innerHTML = message; // Inserta el mensaje en el contenedor del modal
+            modalContainer.style.display = "block"; // Muestra el contenedor del modal
+            modalOverlay.style.display = "block"; // Muestra el overlay
+    
+            // Crea un botón de cerrar el modal
             const modalClose = document.createElement("div");
-            modalClose.innerText = "❌";
-            modalClose.className = "modal-close";
-            modalContainer.append(modalClose);
-
-            modalClose.addEventListener("click", ()=> {
-                modalContainer.style.display = "none";
-                modalOverlay.style.display = "none";
+            modalClose.innerText = "❌"; // Icono de cerrar
+            modalClose.className = "modal-close"; // Clase para estilizar
+            modalContainer.append(modalClose); // Agrega el botón al contenedor del modal
+    
+            // Añade el evento para cerrar el modal al hacer clic en el botón
+            modalClose.addEventListener("click", () => {
+                modalContainer.style.display = "none"; // Oculta el contenedor del modal
+                modalOverlay.style.display = "none"; // Oculta el overlay
             });
         };
-
-        document.addEventListener('DOMContentLoaded', verifyToken);
-
-    </script>
+    
+        // Función para verificar el rol de administrador
+        function adminMiddleware() {
+            const token = sessionStorage.getItem('token');
+            const role = sessionStorage.getItem('role');
+    
+            // Verifica si el token y el rol están almacenados en sessionStorage
+            if (!token || role !== 'admin') {
+                // Si no hay token o el rol no es 'admin', redirige al index
+                sessionStorage.removeItem('token'); // Elimina el token
+                window.location.replace('./index.html'); // Redirige a la página de inicio
+            }
+        };
+    
+        // Función para verificar la autenticación del usuario
+        function checkAuth() {
+            const token = sessionStorage.getItem('token');
+            const role = sessionStorage.getItem('role');
+    
+            console.log(token); // Muestra el token en la consola
+            console.log(role); // Muestra el rol en la consola
+    
+            // Verifica si el token y el rol están almacenados en sessionStorage
+            if (!token || role !== 'admin') {
+                // Si no hay token o el rol no es 'admin', redirige al index
+                sessionStorage.removeItem('token'); // Elimina el token
+                sessionStorage.removeItem('role'); // Elimina el rol
+                sessionStorage.removeItem('user'); // Elimina el usuario
+                sessionStorage.removeItem('username'); // Elimina el nombre de usuario
+                window.location.replace('./index.html'); // Redirige a la página de inicio
+            }
+        };
+    
+        // Al cargar el contenido de la página
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAuth(); // Verifica autenticación al cargar la página
+            adminMiddleware(); // Verifica si el usuario tiene rol de administrador
+            verifyToken(); // Función adicional que verifica el token (debe estar definida en otro lugar)
+            
+            // Manejo del evento popstate para cerrar sesión al usar el botón de retroceder del navegador
+            window.addEventListener('popstate', () => {
+                checkAuth(); // Verifica autenticación al cargar la página
+                adminMiddleware(); // Verifica si el usuario tiene rol de administrador
+                verifyToken(); // Verifica el token nuevamente
+                const token = sessionStorage.getItem('token');
+                if (token) {
+                    // Si hay un token, lo elimina y redirige al inicio de sesión
+                    sessionStorage.removeItem('token');
+                    sessionStorage.removeItem('role');
+                    sessionStorage.removeItem('user');
+                    sessionStorage.removeItem('username');
+                    window.location.replace('./index.html'); // Redirige a la página de inicio
+                }
+            });
+        });
+    
+        // Llama a `checkAuth()` en cada página protegida para verificar si el usuario está autenticado
+        document.addEventListener('DOMContentLoaded', checkAuth);
+    
+    </script>    
 </body>
 <footer>
     <div class="footer-container">
-        <p>Concatenados® Todos los derechos reservados. 2024</p>
+        <p> ® 2024 Concatenados - Todos los derechos reservados - Sitio web creado por Concatenados lml </p>
     </div>
 </footer>
 </html>

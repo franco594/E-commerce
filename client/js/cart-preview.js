@@ -41,17 +41,34 @@ function updatePreview() {
     const name = document.getElementById('productName').value;
     const price = document.getElementById('productPrice').value;
     const quantity = document.getElementById('productQuantity').value;
-    const imageUrl = document.getElementById('productImage').value;
+    const imageUrl = document.getElementById('productImage').value; 
     const buyButton = document.createElement("button");
     const productPreview = document.createElement('product-preview');
 
     buyButton.innerText = "Comprar";
     productPreview.append(buyButton);
 
+    
+
+    priceArs = price.toLocaleString('es-ES', {
+        style: 'currency',
+        currency: 'ARS'
+    });
+
+    console.log(priceArs);
+
+    quotas = price / 6;
+
+    quotas = quotas.toLocaleString('es-ES', {
+        style: 'currency',
+        currency: 'ARS'
+    });
+
     document.getElementById('previewName').textContent = name || 'Nombre del producto';
-    document.getElementById('previewPrice').textContent = price ? `$${price}` : 'Precio';
+    document.getElementById('previewPrice').textContent = price ? `$${priceArs}` : 'Precio';
     document.getElementById('previewQuantity').textContent = quantity ? `Stock: ${quantity}` : 'Cantidad';
-    document.getElementById('previewImage').src = imageUrl;
+    document.getElementById('span-quotas').textContent = quotas || 'Cuotas';
+    document.getElementById('previewImage').src = imageUrl || '/media/logo.png';
 
 
 }

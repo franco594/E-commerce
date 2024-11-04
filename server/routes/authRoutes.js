@@ -15,6 +15,11 @@ router.post("/login", loginUser);
 router.get('/admin', adminMiddleware, (req, res) => {
     // Lógica para la página de administración
     res.json({ message: 'Bienvenido al panel de administración' });
-  });
+});
+
+router.get('/usuarios', verifyToken, (req, res) => {
+  // Lógica para la página de administración
+  res.json({ message: 'Bienvenido al panel de usuario' });
+});
 
 export default router;

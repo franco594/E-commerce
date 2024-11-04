@@ -174,17 +174,38 @@ body {
 /*Banner*/
 .banner {
     height: 100vh;
-    background-image: linear-gradient(to top, white 1%, rgba(255, 255, 255, 0) 60%), url('../media/panel.jpg');
+    overflow: hidden;
+    position: relative;
+    margin: auto;
+    
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 1s ease; /* Suaviza el desplazamiento entre imágenes */
+    height: 100%;
+}
+
+/* Cada imagen de fondo */
+.slider-item {
+    
+    min-width: 100%; /* Cada imagen ocupa el ancho de .banner */
+    height: 100%;
     background-size: cover;
     background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
 }
 
 .banner-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     text-align: center;
     color: white;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .banner-container h1 {
@@ -215,35 +236,72 @@ body {
     justify-content: space-around;
     flex-wrap: wrap;
     margin: auto;
-    font-family: arial;
-    margin-left: 10%;
-    margin-right: 10%;
+    font-family: "Montserrat", Sans-serif;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .card-products div {
-    flex: 1 1  100%;
-    max-width: 100%;
+
+    min-height: 480px;
     box-sizing: border-box;
     margin: 10px;  
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 0.25rem;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    
 }
+
+
+.card-products div:hover{
+    transform: scale(1.050);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
 
 .card-products img {
     margin-top: 40px;
     width: 200px;
     height: 250px;
+    border-radius: 0.25rem;
+}
+
+.card-products p{
+    font-size: 14px;
+}
+
+#quotas-p {
+    font-size: 12px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    padding: 0px 50px 43px 50px;
+}
+
+.card-products h4{
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 0px;
+    margin-bottom: 5px;
 }
 
 .card-products button {
+    display: none;
     border: none;
     outline: 0;
     padding: 10px;
+    margin-top: 23px;
     color: white;
     background-color: #a60921;
     text-align: center;
     cursor: pointer;
     width: 100%;
     font-size: 15px;
+    transition: all .4s ease;
+}
+
+.card-products div:hover button {
+    display: block;
+    transition: all .4s ease;
 }
 
 .card-products button:hover {
@@ -297,8 +355,8 @@ body {
 .cart-counter {
     display:grid;
     position: fixed;
-    top: 86vh;
-    right: 27px;
+    bottom: 6.5rem;
+    right: 2rem;
     color:#ffffff;
     text-align: center;
     align-content: center;
@@ -579,6 +637,7 @@ body {
 }
 
 .preview-container {
+    text-align: center;
     width: 360px;
     height: auto;
     margin: auto;
@@ -698,6 +757,10 @@ body {
     .navbar-logo {
         padding-left: 10px;
     }
+
+    .cart-btn .cart-counter {
+        right: 2rem;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -741,17 +804,13 @@ body {
         width: calc(100% + 16px);
     }
 
-    .footer-container {
-        margin: 0 -8px;
-        width: calc(100% + 16px);
-    }
+    
+
+    
 }
 
-@media screen and (min-width: 600px) {
-    .card-products div {
-        flex: 1 1 45%;
-        max-width: 45%;
-    }
+@media screen and (min-width: 1100px) {
+    
 }
 
 @media screen and (max-width: 768px) {
@@ -780,13 +839,7 @@ body {
         padding: 1.25rem;
     }
 
-    .cart-btn {
-        bottom: 1.5rem;
-        right: 1.5rem;
-        width: 3rem;
-        height: 3rem;
-        font-size: 1.25rem;
-    }
+    
 }
 
 .banner-container h1, 
@@ -829,6 +882,8 @@ body {
     .navbar-logo img {
         height: 7rem;
     }
+
+    
 }
 
 /* Ajustes para pantallas muy pequeñas */
@@ -847,6 +902,8 @@ body {
         position: relative;
         z-index: 1;
     }
+
+    
 }
 
 /* Agregar los nuevos estilos para la vista previa */
@@ -864,6 +921,11 @@ body {
 }
 
 .preview-container {
+    display: flex;
+    flex-direction: column;
+    margin:  auto;
+    align-items: center;
+    text-align: center;
     flex: 1;
     background: white;
     padding: 1.5rem;
@@ -872,8 +934,11 @@ body {
 }
 
 .product-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
     border: 1px solid #ddd;
-    padding: 1rem;
     border-radius: 0.5rem;
     text-align: center;
 }
@@ -881,18 +946,29 @@ body {
 .product-preview img {
     max-width: 100%;
     height: auto;
+    padding-top: 1rem;
     margin-bottom: 1rem;
     border-radius: 0.25rem;
 }
 
-.product-preview h3 {
-    color: #333;
-    margin-bottom: 0.5rem;
+.product-preview h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 0px;
+    margin-bottom: 5px;
 }
 
 .product-preview p {
-    color: #666;
-    margin: 0.25rem 0;
+    font-size: 14px;
+}
+
+.product-preview p1 {
+    font-size: 12px;
+}
+
+.product-preview span {
+   font-size: 16px;
+   padding: 0px 50px 43px 50px;
 }
 
 /* Responsive */
@@ -904,5 +980,6 @@ body {
     .preview-container {
         margin-top: 1rem;
     }
+
 }
 
