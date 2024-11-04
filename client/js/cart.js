@@ -106,7 +106,7 @@ const displayCart = () => {
                 price: total, // Enviar el total al backend
             };
 
-            fetch("http://localhost:3000/create_preference", {
+            fetch("/create_preference", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
