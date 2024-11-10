@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <title>Gaming Store</title>
     <link rel="icon" href="./media/logo.png">
@@ -37,10 +38,55 @@
     <!--banner-->
     <div class="banner">
         <div class="slider-track" id="slider-track">
-            
+        </div>
+        <div class="slider-content" id="sliderBanner">
+            <h1 class="animated-title">Gaming Store</h1>
+            <p class="animated-subtitle">Tu tienda de juegos</p>
         </div>
     </div>
 
+    <div class="inf-banner">
+        <div class="container-item">
+            <div class="container-info">
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/shipped.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Envios a todo el país</b>
+                        <p>por Correo Argentino</p>
+                    </div>
+                </div>
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/shield.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Pago 100% seguro</b>
+                        <p>a través de  Mercado Pago</p>
+                    </div>
+                </div>
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/valid.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Pagos</b>
+                        <p>Con todas las tarjetas</p>
+                    </div>
+                </div>
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/whatsapp.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Atención perzonalizada</b>
+                        <p>por humanos reales</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--shop content-->
     <div class="card-products-container">
@@ -73,7 +119,7 @@
         // Función para cerrar sesión y redirigir al inicio
         function logoutAndRedirect() {
             sessionStorage.clear(); // Limpia todos los datos almacenados en sessionStorage
-            window.location.replace('./index.html'); // Redirige al inicio (a la página de login)
+            window.location.replace('./index.html');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -83,11 +129,11 @@
             // Recupera el nombre de usuario desde sessionStorage y lo muestra en la interfaz
             const username = sessionStorage.getItem('username');
             if (username) {
-                document.getElementById('user-name').textContent = username; // Asigna el nombre de usuario al elemento correspondiente
+                document.getElementById('user-name').textContent = username; 
             }
     
             // Manejo del cierre de sesión
-            document.getElementById('logout-btn').addEventListener('click', logoutAndRedirect); // Agrega un evento al botón de cerrar sesión
+            document.getElementById('logout-btn').addEventListener('click', logoutAndRedirect); 
         });
     
         // Manejo del evento popstate para verificar el token al usar el botón de retroceder del navegador

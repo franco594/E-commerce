@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <title>Gaming Store</title>
     <link rel="icon" href="./media/logo.png">
@@ -34,12 +35,59 @@
     <div class="separador-header">
         <p>6 CUOTAS SIN INTERES EN TODA NUESTRA TIENDA</p>
     </div>
-    <!--banner-->
-    <div class="banner">
-        <div class="slider-track" id="slider-track">
-            
+   <!--banner-->
+   <div class="banner">
+    <div class="slider-track" id="slider-track">
+    </div>
+    <div class="slider-content" id="sliderBanner">
+        <h1 class="animated-title">Gaming Store</h1>
+        <p class="animated-subtitle">Tu tienda de juegos</p>
+    </div>
+</div>
+
+    <div class="inf-banner">
+        <div class="container-item">
+            <div class="container-info">
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/shipped.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Envios a todo el país</b>
+                        <p>por Correo Argentino</p>
+                    </div>
+                </div>
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/shield.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Pago 100% seguro</b>
+                        <p>a través de  Mercado Pago</p>
+                    </div>
+                </div>
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/valid.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Pagos</b>
+                        <p>Con todas las tarjetas</p>
+                    </div>
+                </div>
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/whatsapp.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Atención perzonalizada</b>
+                        <p>por humanos reales</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
     <!-- Columna del formulario -->
     <div class="form-preview-container">
         <div class="form-container">
@@ -65,8 +113,8 @@
             <p id="previewName">Nombre</p>
             <h4 id="previewPrice">Precio</h4>
             <p id="previewQuantity">Stock</p>
-            <p1><b>6</b> cuotas sin interés de</p1>
-            <p1><b><span id="span-quotas">Cuotas</span></b></p1>
+            <p><b>6</b> cuotas sin interés de </p>
+            <p><b><span id="span-quotas">Cuotas</span></b></p>
             <button  class="preview-btn" id="preview-btn">Comprar</button>
         </div>
         </div>
@@ -120,7 +168,7 @@
                 showModalMessage("Nuevo producto creado ✅"); // Muestra un mensaje de éxito
             } catch (error) {
                 console.error("Error al enviar los datos:", error); // Muestra el error en la consola
-                showModalMessage("Hubo un problema al enviar el formulario. Verifica los datos e intenta de nuevo. ❌"); // Muestra un mensaje de error
+                showModalMessage("Hubo un problema al enviar el formulario. Verifica los datos e intenta de nuevo."); // Muestra un mensaje de error
             }
         });
     
@@ -135,8 +183,8 @@
     
             // Crea un botón de cerrar el modal
             const modalClose = document.createElement("div");
-            modalClose.innerText = "❌"; // Icono de cerrar
             modalClose.className = "modal-close"; // Clase para estilizar
+            modalClose.innerHTML = "&#10005;"; // Agrega una cruz (X) usando HTML entity
             modalContainer.append(modalClose); // Agrega el botón al contenedor del modal
     
             // Añade el evento para cerrar el modal al hacer clic en el botón

@@ -14,7 +14,7 @@ const displayCart = () => {
     // Encabezado del modal
     const modalHeader = document.createElement("div");
     const modalClose = document.createElement("div");
-    modalClose.innerText = "❌"; // Ícono de cierre
+    modalClose.innerHTML = "&#10006;"; // Ícono de cierre
     modalClose.className = "modal-close";
     modalHeader.append(modalClose); // Agregar el botón de cerrar al encabezado
 
@@ -106,7 +106,7 @@ const displayCart = () => {
                 price: total, // Enviar el total al backend
             };
 
-            fetch("/create_preference", {
+            fetch("http://localhost:3000/create_preference", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

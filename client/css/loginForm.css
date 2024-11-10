@@ -25,13 +25,27 @@ section{
 
 
 .caja-p__form{
+    display: flex;
     width: 100%;
     height: 100px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; 
+}
+
+.caja-p__form a {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    margin-right: 20px;
+    margin-top: 30px;
 }
 
 .caja-p__form p{
-    margin: auto;
+    
     font-size: 35px;
     color: #8E44AD;
     font-weight: 500;
@@ -134,6 +148,23 @@ section{
     cursor: pointer;
   }
 
+  .footer-container {
+    position: fixed;                  
+    bottom: 0;                        
+    left: 0;                          
+    width: 100vw;                     
+    text-align: center;               
+    background-color: rgba(0, 0, 0, 0.8); 
+    padding: 15px 0;                  
+    margin: 0;           
+}
+
+.footer-container p {
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
   /* Loader */
 
   .loader {
@@ -162,3 +193,11 @@ section{
     50% { opacity: 1; }
     100% { opacity: 0.2; }
 }
+
+.logo-button {
+    width: 60px; /* Ajusta el tamaño según sea necesario */
+    height: auto; /* Mantiene la proporción de la imagen */
+    cursor: pointer;
+    margin-top: 7px; /* Cambia el cursor al pasar el mouse */
+}
+

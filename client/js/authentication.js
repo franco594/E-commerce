@@ -5,7 +5,7 @@ async function login() {
     const password = document.querySelector('input[name="password"]').value;
 
     // Hacer una solicitud POST al servidor para iniciar sesión
-    const response = await fetch('/login', {
+    const response = await fetch('https://concatenados-e-commerce.onrender.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_name: user_name, password: password }),
@@ -42,7 +42,7 @@ function verifyToken() {
     const token = sessionStorage.getItem('token');
     // Si no hay un token, redirigir al usuario a la página de inicio de sesión
     if (!token) {
-        window.location.replace('../index.html'); // Cambia a la ruta correcta
+        window.location.replace('./index.html'); // Cambia a la ruta correcta
     }
 }
 

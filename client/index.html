@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <title>Gaming Store</title>
     <link rel="icon" href="./media/logo.png">
@@ -30,8 +31,8 @@
             </div>
 
             <div class="login-register">
-                <button id="login-btn"> Login </button>
-                <button id="register-btn">Crear cuenta</button>
+                <button id="login-btn" class="button">Login</button>
+                <button id="register-btn" class="button">Crear cuenta</button>
             </div>
         </nav>
     </div>
@@ -42,7 +43,53 @@
     <!--banner-->
     <div class="banner">
         <div class="slider-track" id="slider-track">
-            
+        </div>
+        <div class="slider-content" id="sliderBanner">
+            <h1 class="animated-title">Gaming Store</h1>
+            <p class="animated-subtitle">Tu tienda de juegos</p>
+        </div>
+    </div>
+
+    <div class="inf-banner">
+        <div class="container-item">
+            <div class="container-info">
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/shipped.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Envios a todo el país</b>
+                        <p>por Correo Argentino</p>
+                    </div>
+                </div>
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/shield.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Pago 100% seguro</b>
+                        <p>a través de  Mercado Pago</p>
+                    </div>
+                </div>
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/valid.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Pagos</b>
+                        <p>Con todas las tarjetas</p>
+                    </div>
+                </div>
+                <div class="item-container">
+                    <div class="item-img">
+                        <img src="/media/whatsapp.png" alt="">
+                    </div>
+                    <div class="item-inf">
+                        <b>Atención perzonalizada</b>
+                        <p>por humanos reales</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -57,10 +104,9 @@
     <!--modal-->
     <div class="modal-overlay" id="modal-overlay"></div>
     <div class="modal-container" id="modal-container"></div>
-
     
-    <script src="/js/index.js"></script>
-    <script src="/js/cart.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/cart.js"></script>
 </body>
 <footer>
     <div class="footer-container">
@@ -68,4 +114,3 @@
     </div>
 </footer>
 </html>
-

@@ -8,11 +8,15 @@
     <link rel="stylesheet" href="./css/registerForm.css">
     <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
 </head>
-<>
+<body>
     <section id="registerSection">
         <form id="registerForm" action="/register" method="POST" class="contenedor-form">
             <div class="caja-p__form">
-                <p>Registro</p>
+                <a href="./index.html">
+                    <img src="./media/logo.png" alt="Logo" class="logo-button">
+                    <p class="titulo-registro">Registro</p>
+                </a>
+                
             </div>
             <div class="contenedor-register">
                 <input type="text" id="nombre_usuario" name="user_name" placeholder="Usuario" required minlength="5" pattern=".*" title="El nombre de usuario debe tener al menos 5 caracteres." autocomplete="off">
@@ -40,6 +44,13 @@
     <div id="loader" class="loader">
         <p>Cargando...</p>
     </div>
+
+    <footer>
+        <div class="footer-container">
+            <p> ® 2024 Concatenados - Todos los derechos reservados - Sitio web creado por Concatenados lml </p>
+        </div>
+    </footer>
+
     <script>
         // Evitar el comportamiento por defecto del formulario si quieres hacer un envío usando Fetch API
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
@@ -58,16 +69,28 @@
                 body: JSON.stringify(data) // Convierte los datos a formato JSON
             });
     
+            // Verifica si la respuesta es válida
+            if (!response.ok) {
+                const errorResult = await response.text(); // Obtiene la respuesta como texto
+                console.error('Error en la respuesta del servidor:', errorResult);
+                showModalMessage("Hubo un problema con el registro. Intenta nuevamente.");
+                loader.style.display = 'none'; // Oculta el loader
+                return; // Sale de la función
+            }
+    
             const result = await response.json(); // Convierte la respuesta a formato JSON
     
             console.log(response.ok); // Muestra en consola si la respuesta fue exitosa
     
             // Verificar si la respuesta fue exitosa
             if (response.ok) {
-                showModalMessage("Registro exitoso ✅"); // Muestra mensaje de éxito
+                showModalMessage("Registro exitoso"); // Muestra mensaje de éxito
+                setTimeout(() => {
+                    window.location.replace('./usuarios.html'); // Redirige a la página principal después de 2 segundos
+                }, 2000); // Espera 2000 ms (2 segundos)
             } else {
                 // Si no fue exitosa, mostrar el mensaje de error
-                showModalMessage(result.message + ' ❌' || "Hubo un problema con el registro. Intenta nuevamente. ❌");
+                showModalMessage(result.message + ' ❌' || "Hubo un problema con el registro. Intenta nuevamente.");
             }
     
             loader.style.display = 'none'; // Oculta el loader al terminar el procesamiento

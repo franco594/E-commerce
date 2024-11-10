@@ -7,12 +7,12 @@ const userName = document.getElementById('user_name'); // Elemento para mostrar 
 // Agrega el evento de clic para el botón de inicio de sesión
 if (loginButton != null && registerButton != null) {
     loginButton.addEventListener('click', () => {
-        window.location.href = '../formLogin.html'; // Redirige a la página de inicio de sesión
+        window.location.href = './formLogin.html'; // Asegúrate de que la ruta sea correcta
     });
 
     // Agrega el evento de clic para el botón de registro
     registerButton.addEventListener('click', () => {
-        window.location.href = '../formRegister.html'; // Redirige a la página de registro
+        window.location.href = './formRegister.html'; // Asegúrate de que la ruta sea correcta
     });
 }
 
@@ -91,43 +91,45 @@ const saveLocal = () => {
 document.addEventListener('DOMContentLoaded', function() {
     // Array de rutas de las imágenes para el slider
     const imagenesBanner = [
-        '../media/panel5.jpg',
-        '../media/panel.jpg',
-        '../media/panel2.jpg',
-        '../media/panel3.jpg',
-        '../media/panel4.jpg',
+        './media/panel.jpg',
+        './media/panel1.jpg',
+        './media/panel2.jpg',
+        './media/panel3.jpg',
+        './media/panel4.jpg',
+        './media/panel5.jpg',
     ];
 
-    const sliderTrack = document.getElementById('slider-track'); // Elemento que contiene el slider
-    let indiceActual = 0; // Índice de la imagen actual
-
+    const sliderTrack = document.getElementById('slider-track');
+    
     // Crea los elementos del slider
     imagenesBanner.forEach((ruta) => {
         const sliderItem = document.createElement('div');
-        const sliderBanner = document.createElement('div');
+        const sliderBanner = document.getElementById('sliderBanner');
         sliderBanner.innerHTML = `
-                <h1>Gaming Store</h1>
-                <p>Tu tienda de juegos</p>`;
-        sliderItem.classList.add('slider-item'); // Clase para los items del slider
-        sliderItem.style.backgroundImage = `linear-gradient(to top, white 1%, rgba(255, 255, 255, 0) 60%), url(${ruta})`; // Establece la imagen de fondo
-        sliderBanner.classList.add('banner-container'); // Clase para el contenedor del banner
-        sliderTrack.appendChild(sliderItem); // Agrega el item al track del slider
-        sliderItem.appendChild(sliderBanner); // Agrega el banner al item del slider
+        <h1>Gaming Store</h1>
+        <p>Tu tienda de juegos</p>`;
+        sliderItem.classList.add('slider-item');
+        sliderItem.style.backgroundImage = `url(${ruta})`;
+        sliderTrack.appendChild(sliderItem);
     });
 
-    // Función para desplazar el slider lateralmente
+    // Lógica para el slider (cambiar imágenes)
+    let currentIndex = 0;
+    const totalItems = imagenesBanner.length;
+
     function cambiarImagen() {
-        indiceActual = (indiceActual + 1) % imagenesBanner.length; // Incrementa el índice actual
-        sliderTrack.style.transform = `translateX(-${indiceActual * 100}%)`; // Desplaza el track
+        // Calcula el desplazamiento
+        const offset = -currentIndex * 100; // Desplazamiento en porcentaje
+        sliderTrack.style.transform = `translateX(${offset}%)`; // Aplica el desplazamiento
+
+        // Actualiza el índice para la siguiente imagen
+        currentIndex = (currentIndex + 1) % totalItems; // Vuelve al inicio si llega al final
     }
 
-    // Cambia la imagen cada 5 segundos
-    setInterval(cambiarImagen, 5000);
-    
-    // Llama a la función para establecer la primera imagen
-    cambiarImagen();
+    cambiarImagen(); // Muestra la primera imagen
+    setInterval(cambiarImagen, 5000); // Cambia la imagen cada 5 segundos
+
 });
 
 // Carga los productos al inicio
 loadProducts();
-
